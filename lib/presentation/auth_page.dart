@@ -43,142 +43,131 @@ class _AuthPageState extends State<AuthPage> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocConsumer<AuthBloc, AuthState>(
-  listener: (context, state) {
-    if(state is AuthAuthorizedState) {
+        listener: (context, state) {
+          if (state is AuthAuthorizedState) {
             context.go('/');
           }
         },
-  builder: (context, state) {
-    return Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Center(
-          child: SingleChildScrollView(
-            child: Form(
-                key: _formKey,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    TabBar(
-                        controller: _tabController,
-                        tabs: [Tab(text: tabVars[0]), Tab(text: tabVars[1])],
-                        labelStyle: Theme
-                            .of(context)
-                            .textTheme
-                            .titleMedium,
-                        unselectedLabelStyle:
-                        Theme
-                            .of(context)
-                            .textTheme
-                            .bodyLarge),
-                    const SizedBox(
-                      height: 24.0,
-                    ),
-                    TextFormField(
-                      controller: _nicknameController,
-                      validator: (value) => validator.simpleValidate(value),
-                      decoration: InputDecoration(
-                          label: Text(
-                            'Никнейм',
-                            style: Theme
-                                .of(context)
-                                .textTheme
-                                .bodyLarge,
-                          ),
-                          hintText: 'Введите никнейм',
-                          border: const OutlineInputBorder()),
-                    ),
-                    const SizedBox(
-                      height: 8.0,
-                    ),
-                    _index == 0
-                        ? TextFormField(
-                      controller: _emailController,
-                      validator: (value) =>
-                          validator.simpleValidate(value),
-                      decoration: InputDecoration(
-                          label: Text(
-                            'Почта',
-                            style: Theme
-                                .of(context)
-                                .textTheme
-                                .bodyLarge,
-                          ),
-                          hintText: 'Введите почту',
-                          border: const OutlineInputBorder()),
-                    )
-                        : Container(),
-                    const SizedBox(
-                      height: 8.0,
-                    ),
-                    TextFormField(
-                      controller: _passwordController,
-                      validator: (value) => validator.simpleValidate(value),
-                      obscureText: !_showPassword,
-                      decoration: InputDecoration(
-                          label: Text(
-                            'Пароль',
-                            style: Theme
-                                .of(context)
-                                .textTheme
-                                .bodyLarge,
-                          ),
-                          hintText: 'Введите пароль',
-                          border: const OutlineInputBorder()),
-                    ),
-                    const SizedBox(
-                      height: 4.0,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        builder: (context, state) {
+          return Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Center(
+              child: SingleChildScrollView(
+                child: Form(
+                    key: _formKey,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
                       children: [
+                        TabBar(
+                            controller: _tabController,
+                            tabs: [
+                              Tab(text: tabVars[0]),
+                              Tab(text: tabVars[1])
+                            ],
+                            labelStyle: Theme.of(context).textTheme.titleMedium,
+                            unselectedLabelStyle:
+                                Theme.of(context).textTheme.bodyLarge),
+                        const SizedBox(
+                          height: 24.0,
+                        ),
+                        TextFormField(
+                          controller: _nicknameController,
+                          validator: (value) => validator.simpleValidate(value),
+                          decoration: InputDecoration(
+                              label: Text(
+                                'Никнейм',
+                                style: Theme.of(context).textTheme.bodyLarge,
+                              ),
+                              hintText: 'Введите никнейм',
+                              border: const OutlineInputBorder()),
+                        ),
+                        const SizedBox(
+                          height: 8.0,
+                        ),
+                        _index == 0
+                            ? TextFormField(
+                                controller: _emailController,
+                                validator: (value) =>
+                                    validator.simpleValidate(value),
+                                decoration: InputDecoration(
+                                    label: Text(
+                                      'Почта',
+                                      style:
+                                          Theme.of(context).textTheme.bodyLarge,
+                                    ),
+                                    hintText: 'Введите почту',
+                                    border: const OutlineInputBorder()),
+                              )
+                            : Container(),
+                        const SizedBox(
+                          height: 8.0,
+                        ),
+                        TextFormField(
+                          controller: _passwordController,
+                          validator: (value) => validator.simpleValidate(value),
+                          obscureText: !_showPassword,
+                          decoration: InputDecoration(
+                              label: Text(
+                                'Пароль',
+                                style: Theme.of(context).textTheme.bodyLarge,
+                              ),
+                              hintText: 'Введите пароль',
+                              border: const OutlineInputBorder()),
+                        ),
+                        const SizedBox(
+                          height: 4.0,
+                        ),
                         Row(
-                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Checkbox(
-                              value: _showPassword,
-                              onChanged: (val) =>
-                                  togglePasswordVisible(
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Checkbox(
+                                  value: _showPassword,
+                                  onChanged: (val) => togglePasswordVisible(
                                       val ?? false), //  <-- leading Checkbox
+                                ),
+                                Text('Показать пароль',
+                                    style:
+                                        Theme.of(context).textTheme.labelLarge)
+                              ],
                             ),
-                            Text('Показать пароль',
-                                style: Theme
-                                    .of(context)
-                                    .textTheme
-                                    .labelLarge)
+                            _index == 1
+                                ? TextButton(
+                                    onPressed: () {},
+                                    child: const Text('Забыли пароль?'))
+                                : const Text('')
                           ],
                         ),
-                        _index == 1
-                            ? TextButton(
-                            onPressed: () {},
-                            child: const Text('Забыли пароль?'))
-                            : const Text('')
+                        const SizedBox(
+                          height: 8.0,
+                        ),
+                        ElevatedButton(
+                            onPressed: () => authFunction(context),
+                            child: Text(tabVars[_index],
+                                style: Theme.of(context).textTheme.bodyLarge)),
+                        const SizedBox(
+                          height: 16.0,
+                        ),
+                        TextButton(
+                            onPressed: () {
+                              context.read<AuthBloc>().add(AuthDevEvent());
+                              context.go('/');
+                            },
+                            child: const Text('DevMode'))
                       ],
-                    ),
-                    const SizedBox(
-                      height: 8.0,
-                    ),
-                    ElevatedButton(
-                        onPressed: () => authFunction(context),
-                        child: Text(tabVars[_index],
-                            style: Theme
-                                .of(context)
-                                .textTheme
-                                .bodyLarge)),
-                    const SizedBox(
-                      height: 16.0,
-                    ),
-                  ],
-                )),
-          ),
-        ),
-      );
-  },
-),
+                    )),
+              ),
+            ),
+          );
+        },
+      ),
     );
   }
 

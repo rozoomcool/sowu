@@ -20,6 +20,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthRefreshEvent>(_onAuthRefresh);
     on<AuthGetUserEvent>(_onAuthGetUser);
     on<AuthLogOutEvent>(_onAuthLogOut);
+    // Dev handler
+    on<AuthDevEvent>(_onAuthDevEvent);
   }
 
   final _dio = GetIt.I.get<Dio>();
@@ -106,5 +108,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     _sharedPrefs.setString('accessToken', '');
     _sharedPrefs.setString('refreshToken', '');
     emit(AuthUnauthorizedState());
+  }
+
+  void _onAuthDevEvent(AuthDevEvent event, Emitter<AuthState> emit) {
+    emit(AuthAuthorizedState(accessToken: '', refreshToken: ''));
   }
 }

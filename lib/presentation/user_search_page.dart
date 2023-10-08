@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:sowu/domain/user_search/user_search_cubit.dart';
 
 class UserSearchPage extends StatefulWidget {
   const UserSearchPage({super.key});
@@ -12,12 +14,16 @@ class UserSearchPage extends StatefulWidget {
 class _UserSearchPageState extends State<UserSearchPage>
     with SingleTickerProviderStateMixin {
   late final AnimationController searchAnimationController;
+  final TextEditingController searchController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    searchAnimationController = AnimationController(vsync: this, duration: const Duration(milliseconds: 1000));
+    searchAnimationController = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 1000));
     searchAnimationController.forward();
+
+    searchController;
   }
 
   @override
@@ -31,9 +37,10 @@ class _UserSearchPageState extends State<UserSearchPage>
             progress: searchAnimationController,
           ),
         ),
-        title: const TextField(
+        title: TextField(
+          onChanged: (value) => context.read<UserSearchCubit>().searchUsers(value),
           decoration:
-              InputDecoration(hintText: 'Поиск', border: InputBorder.none),
+              const InputDecoration(hintText: 'Поиск', border: InputBorder.none),
         ),
         centerTitle: true,
       ),
@@ -74,6 +81,27 @@ class _UserSearchPageState extends State<UserSearchPage>
                     .bodyMedium
                     ?.copyWith(fontWeight: FontWeight.bold)),
           ),
+          BlocConsumer<UserSearchCubit, UserSearchState>(
+            listener: (context, state) {
+              // TODO: implement listener
+            },
+            builder: (context, state) {
+              if (state is UserSearchLoaded){
+                return ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: state.users.length,
+                  itemBuilder: (context, index) => ListTile(
+                    leading: const CircleAvatar(),
+                    title: Text(state.users[index].nickname??''),
+                    subtitle: Text('Hi, i\'m using sowu!'),
+                  ),
+                );
+              } else {
+                return Container();
+              }
+
+            },
+          )
         ],
       )),
     );
