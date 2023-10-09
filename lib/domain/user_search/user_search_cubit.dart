@@ -6,7 +6,7 @@ import 'package:get_it/get_it.dart';
 import 'package:meta/meta.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../models/user.dart';
+import '../../models/user/user.dart';
 
 part 'user_search_state.dart';
 
